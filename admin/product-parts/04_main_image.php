@@ -1,0 +1,1 @@
+<div class="form-group"><label>Immagine Principale *</label><input type="file" class="form-control" name="image"><?php if (!empty($prodotto['image_url'])): ?><p style="margin-top:1rem;">Immagine attuale: <br><img src="<?php echo htmlspecialchars($prodotto['image_url']); ?>" style="max-width:150px;"></p><?php endif; ?></div>

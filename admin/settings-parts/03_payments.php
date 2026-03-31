@@ -1,0 +1,3 @@
+<div class="form-group"><label>Email PayPal</label><input type="email" class="form-control" name="payment_paypal_email" value="<?php echo htmlspecialchars($settings['payment_paypal_email'] ?? ''); ?>"></div>
+<div class="form-group"><label>Stripe Chiave Pubblica</label><input type="text" class="form-control" name="payment_stripe_pk" value="<?php echo htmlspecialchars($settings['payment_stripe_pk'] ?? ''); ?>"></div>
+<div class="form-group"><label>Stripe Chiave Segreta</label><input type="text" class="form-control" name="payment_stripe_sk" value="<?php echo htmlspecialchars($settings['payment_stripe_sk'] ?? ''); ?>"></div>
