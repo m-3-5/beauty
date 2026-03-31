@@ -1,0 +1,21 @@
+</main>
+
+<footer style="background: #fff; border-top: 1px solid #eee; padding: 60px 0; margin-top: 80px; text-align: center;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <img src="https://beautyofimage.com/wp-content/uploads/2026/03/Logo.png" alt="Logo" style="max-height: 50px; filter: grayscale(1); opacity: 0.6; margin-bottom: 20px;">
+        
+        <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 30px;">
+            <a href="https://beautyofimage.com/chi-siamo" style="text-decoration: none; color: #666;">Chi Siamo</a>
+            <a href="https://beautyofimage.com/contatti" style="text-decoration: none; color: #666;">Contatti</a>
+            <a href="https://beautyofimage.com/privacy-policy" style="text-decoration: none; color: #666;">Privacy</a>
+        </div>
+
+        <p style="color: #999; font-size: 0.85rem;">
+            &copy; <?php echo date('Y'); ?> Beauty of Image. Tutti i diritti riservati.<br>
+            P.IVA 02047820760
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>

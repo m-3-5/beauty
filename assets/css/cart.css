@@ -1,0 +1,84 @@
+/* /gestionale/assets/css/cart.css (Versione Finale per Checkout) */
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2.5rem;
+    align-items: flex-start;
+}
+.checkout-step {
+    background: #fff;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+}
+.checkout-step h3 {
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.form-group {
+    margin-bottom: 1.2rem;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Stili per la lista prodotti nel checkout */
+.cart-item-list .cart-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.cart-item-list .cart-item:last-child {
+    border-bottom: none;
+}
+.cart-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.cart-item-details h4 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.1rem;
+}
+.cart-item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* Stili per il riepilogo */
+.cart-summary {
+    position: sticky; /* Rimane visibile mentre scorri i prodotti */
+    top: 100px; /* Distanza dall'header fisso */
+}
+.cart-total-row { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+.cart-total h2 { display: flex; justify-content: space-between; border-top: 2px solid #333; padding-top: 1rem; margin-top: 1rem; }
+.checkout-buttons { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; }
+
+/* Responsive */
+@media (max-width: 992px) {
+    .checkout-grid {
+        grid-template-columns: 1fr; /* Una colonna su tablet e mobile */
+    }
+}

@@ -1,0 +1,44 @@
+<?php
+// /gestionale/includes/functions_v2.php
+
+// Array globale per memorizzare tutti i nostri "agganci" (hooks)
+$hooks = [];
+
+/**
+ * Aggancia una funzione a un'azione specifica.
+ * È il modo in cui un plugin dice: "Quando succede X, esegui la mia funzione Y".
+ *
+ * @param string $tag L'etichetta dell'hook (es. 'admin_menu').
+ * @param callable $function La funzione da eseguire.
+ */
+function add_action(string $tag, callable $function) {
+    global $hooks;
+    // Se l'hook non esiste, lo creiamo come un array vuoto
+    if (!isset($hooks[$tag])) {
+        $hooks[$tag] = [];
+    }
+    // Aggiungiamo la nostra funzione alla lista di quelle da eseguire per questo hook
+    $hooks[$tag][] = $function;
+}
+
+/**
+ * Esegue tutte le funzioni agganciate a un'azione specifica.
+ * È il modo in cui il core dice: "Sto per fare X. C'è qualche plugin in ascolto?".
+ *
+ * @param string $tag L'etichetta dell'hook da eseguire.
+ * @param mixed ...$args Argomenti extra da passare alle funzioni agganciate.
+ */
+function do_action(string $tag, ...$args) {
+    global $hooks;
+    // Se nessuno si è agganciato a questo hook, non facciamo nulla
+    if (!isset($hooks[$tag])) {
+        return;
+    }
+    // Altrimenti, eseguiamo ogni funzione che si è registrata
+    foreach ($hooks[$tag] as $function) {
+        call_user_func_array($function, $args);
+    }
+}
+
+// Qui potremmo aggiungere in futuro la nostra funzione potenziata uploadImage()
+// function uploadImage(...) { ... }

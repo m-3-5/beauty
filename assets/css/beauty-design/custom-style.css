@@ -1,0 +1,232 @@
+/* * BEAUTY OF IMAGE - OFFICIAL HUB CSS (Luxury Gold Edition)
+ * Versione 2.1 - Clean & Flexbox Optimized
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;600&display=swap');
+
+:root {
+    --beauty-gold: #d4af37;
+    --beauty-black: #1a1a1a;
+    --beauty-white: #ffffff;
+    --beauty-gray: #808285;
+    --beauty-bg-light: #fdfdfd;
+}
+
+/* --- RESET & BASE --- */
+body {
+    font-family: 'Work Sans', sans-serif;
+    background-color: var(--beauty-bg-light);
+    color: var(--beauty-black);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- TITOLI --- */
+h1, h2, h3, h4, .page-title, .product-title {
+    color: var(--beauty-gold);
+    font-weight: 600;
+}
+
+/* --- HEADER & NAVIGATION --- */
+.site-header {
+    background: var(--beauty-white);
+    border-bottom: 2px solid var(--beauty-gold);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky; /* Rimane in alto scorrendo la pagina */
+    top: 0;
+    z-index: 1000;
+}
+
+.header-main {
+    padding: 12px 0;
+}
+
+/* Griglia Header in 3 colonne */
+.header-flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-main-left, .header-main-right {
+    flex: 1; 
+}
+
+.header-main-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.header-main-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
+/* Gestione Logo a 45px */
+.logo img {
+    height: 45px;
+    width: auto;
+    display: block;
+}
+
+/* Gestione Menu Semplificato */
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Spaziatura uniforme tra le voci */
+}
+
+.main-nav a {
+    color: var(--beauty-black);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: var(--beauty-gold);
+}
+
+/* Stile specifico per il link torna al sito */
+.main-nav a.site-back-link {
+    color: var(--beauty-gray);
+    font-size: 0.8rem;
+    border-right: 1px solid #eee;
+    padding-right: 25px;
+}
+
+/* --- HUB DASHBOARD (INDEX) --- */
+.welcome-hub {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.hub-card {
+    background: var(--beauty-white);
+    border: 1px solid #eaeaea;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border-radius: 4px; /* Bordi leggermente squadrati per eleganza */
+}
+
+.hub-card:hover {
+    border-color: var(--beauty-gold);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.hub-icon {
+    font-size: 2rem;
+    color: var(--beauty-gold);
+    margin-bottom: 20px;
+}
+
+.hub-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: var(--beauty-black);
+}
+
+.hub-card p {
+    font-size: 0.9rem;
+    color: var(--beauty-gray);
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* --- PULSANTI & AZIONI --- */
+.btn, .add-to-cart, button[type="submit"], .hub-btn {
+    background-color: var(--beauty-gold);
+    color: var(--beauty-white);
+    border: 1px solid var(--beauty-gold);
+    padding: 10px 24px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover, .add-to-cart:hover, button[type="submit"]:hover, .hub-btn:hover {
+    background-color: var(--beauty-black);
+    border-color: var(--beauty-black);
+    color: var(--beauty-gold);
+}
+
+/* --- CARRELLO ICONA --- */
+.cart-icon {
+    position: relative;
+    text-decoration: none;
+}
+
+.cart-icon i {
+    color: var(--beauty-black);
+    font-size: 1.4rem;
+    transition: color 0.3s ease;
+}
+
+.cart-icon:hover i {
+    color: var(--beauty-gold);
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: var(--beauty-gold);
+    color: var(--beauty-white);
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 50%;
+}
+
+/* --- RESPONSIVE BASILARE --- */
+@media (max-width: 768px) {
+    .header-flex-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    .main-nav a.site-back-link {
+        border-right: none;
+        padding-right: 0;
+    }
+}
+.header-top-bar {
+    display: none !important;
+}
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+.site-header {
+    margin-top: 0 !important;
+    top: 0 !important;
+    position: sticky;
+}

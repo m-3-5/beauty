@@ -1,0 +1,53 @@
+<?php
+require 'includes/header.php';
+
+if (!isset($_GET['slug'])) {
+    exit('Pagina non specificata per il costruttore.');
+}
+$page_slug = $_GET['slug'];
+
+$stmt = $db->prepare("SELECT id, section_type, is_active, display_order FROM page_sections WHERE page_slug = ? ORDER BY display_order ASC");
+$stmt->bind_param("s", $page_slug);
+$stmt->execute();
+$sections_result = $stmt->get_result();
+?>
+
+<div class="container">
+    <h1>Costruttore Pagina: <?php echo ucfirst($page_slug); ?></h1>
+    <p>Modifica l'ordine, la visibilità e il contenuto dei blocchi che compongono la tua pagina.</p>
+
+    <div style="background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ordine</th>
+                    <th>Tipo di Blocco</th>
+                    <th>Stato</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($sections_result->num_rows > 0): ?>
+                    <?php while ($section = $sections_result->fetch_assoc()): ?>
+                        <tr>
+                            <td><span style="font-weight: bold; font-size: 1.2rem;"><?php echo $section['display_order']; ?></span></td>
+                            <td><strong><?php echo ucfirst(str_replace('_', ' ', $section['section_type'])); ?></strong></td>
+                            <td><?php echo $section['is_active'] ? '<span style="color: #28a745;">● Visibile</span>' : '<span style="color: #dc3545;">● Nascosto</span>'; ?></td>
+                            <td class="actions">
+                                <a href="block_editor.php?id=<?php echo $section['id']; ?>" class="btn btn-secondary">Modifica</a>
+                                
+                                <a href="builder_actions.php?action=toggle_active&id=<?php echo $section['id']; ?>&slug=<?php echo $page_slug; ?>" class="btn btn-info"><?php echo $section['is_active'] ? 'Nascondi' : 'Mostra'; ?></a>
+                                <a href="builder_actions.php?action=delete&id=<?php echo $section['id']; ?>&slug=<?php echo $page_slug; ?>" class="btn btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questo blocco?');">Elimina</a>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <tr><td colspan="4">Nessun blocco trovato.</td></tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right" style="margin-top: 2rem;"><a href="#" class="btn btn-primary">Aggiungi Nuovo Blocco</a></div>
+</div>
+
+<?php require 'includes/footer.php'; ?>

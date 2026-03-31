@@ -1,0 +1,171 @@
+/* * BEAUTY OF IMAGE - OFFICIAL HUB CSS (Luxury Gold Edition)
+ * Versione 2.0 - Logo & Card Refined
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&display=swap');
+
+:root {
+    --beauty-gold: #d4af37;
+    --beauty-black: #1a1a1a;
+    --beauty-white: #ffffff;
+    --beauty-gray: #808285;
+    --beauty-bg-light: #fdfdfd;
+}
+
+/* --- RESET & BASE --- */
+body {
+    font-family: 'Work Sans', sans-serif !important;
+    background-color: var(--beauty-bg-light) !important;
+    color: var(--beauty-black) !important;
+    margin: 0;
+}
+
+/* --- HEADER & LOGO --- */
+.header-main {
+    background: var(--beauty-white) !important;
+    border-bottom: 2px solid var(--beauty-gold) !important;
+    padding: 10px 0 !important; /* Più sottile */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.main-logo {
+    max-height: 45px !important; /* Logo rimpicciolito per eleganza */
+    width: auto !important;
+    display: block;
+}
+
+.main-nav a {
+    color: var(--beauty-black) !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    margin: 0 12px !important;
+    text-decoration: none !important;
+}
+
+.main-nav a:hover, .back-link:hover {
+    color: var(--beauty-gold) !important;
+}
+
+.back-link {
+    color: var(--beauty-gray) !important;
+    font-weight: bold;
+    font-size: 0.8rem !important;
+}
+
+/* --- TITOLI (ADDIO BLU) --- */
+h1, h2, h3, h4, .page-title, .product-title {
+    color: var(--beauty-gold) !important;
+    font-weight: 600 !important;
+}
+
+/* --- HUB DASHBOARD (INDEX) --- */
+.welcome-hub {
+    padding: 30px 0;
+}
+
+.hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.hub-card {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 25px 15px !important; /* Più compatta */
+    text-align: center;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.hub-card:hover {
+    border-color: var(--beauty-gold) !important;
+    transform: translateY(-5px);
+}
+
+.hub-icon {
+    font-size: 2rem !important; /* Icone rimpicciolite */
+    color: var(--beauty-gold);
+    margin-bottom: 15px !important;
+}
+
+.hub-card h3 {
+    font-size: 1.1rem !important;
+    margin-bottom: 10px !important;
+    color: var(--beauty-black) !important;
+}
+
+.hub-card p {
+    font-size: 0.85rem !important;
+    color: #666 !important;
+    margin-bottom: 20px !important;
+    line-height: 1.4;
+}
+
+.hub-btn {
+    background: var(--beauty-gold);
+    color: #fff !important;
+    padding: 8px 18px !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* --- PULSANTI & AZIONI --- */
+.btn, .add-to-cart, button[type="submit"] {
+    background-color: var(--beauty-gold) !important;
+    color: var(--beauty-white) !important;
+    border: none !important;
+    border-radius: 0px !important;
+    font-weight: bold !important;
+    text-transform: uppercase;
+    transition: 0.3s !important;
+    cursor: pointer;
+}
+
+.btn:hover, .add-to-cart:hover {
+    background-color: var(--beauty-black) !important;
+    color: var(--beauty-gold) !important;
+}
+
+/* Icona Carrello */
+.cart-icon i {
+    color: var(--beauty-gold) !important;
+    font-size: 1.3rem;
+}
+
+.cart-count {
+    background: var(--beauty-black) !important;
+    color: var(--beauty-gold) !important;
+    border: 1px solid var(--beauty-gold);
+}
+
+/* --- FOOTER --- */
+.footer, footer {
+    background-color: var(--beauty-black) !important;
+    color: var(--beauty-white) !important;
+    border-top: 3px solid var(--beauty-gold) !important;
+    padding: 40px 0 !important;
+    text-align: center;
+}
+
+.footer p, .footer span {
+    color: #aaa !important;
+    font-size: 0.85rem !important;
+}
+
+.footer a {
+    color: var(--beauty-gold) !important;
+    text-decoration: none !important;
+}
+
+/* --- TABELLE CARRELLO --- */
+table th {
+    background: #f9f9f9 !important;
+    color: var(--beauty-gold) !important;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--beauty-gold) !important;
+}

@@ -1,0 +1,46 @@
+<table class="cart-table">
+    <thead>
+        <tr>
+            <th style="width: 100px;"></th> <th style="text-align: left;">Prodotto</th>
+            
+            <th style="text-align: center;">Prezzo</th>
+            <th style="text-align: center;">Quantità</th>
+            <th style="text-align: right;">Subtotale</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($cart_items_details as $item): ?>
+        <tr>
+            <td>
+                <img class="cart-item-image" src="<?php echo htmlspecialchars($item['image_url']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>">
+            </td>
+            <td>
+                <h3 style="margin: 0; font-size: 1.1rem;"><?php echo htmlspecialchars($item['name']); ?></h3>
+            </td>
+            <td style="text-align: center;">
+                € <?php echo number_format($item['price'], 2, ',', '.'); ?>
+            </td>
+            <td style="text-align: center;">
+                <form action="cart_actions.php" method="POST" class="cart-actions">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                    <input type="hidden" name="redirect_url" value="carrello.php">
+                    <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="0">
+                    <button type="submit" class="btn-secondary">✓</button>
+                </form>
+            </td>
+            <td style="text-align: right;">
+                <strong>€ <?php echo number_format($item['subtotal'], 2, ',', '.'); ?></strong>
+            </td>
+            <td style="text-align: center;">
+                <form action="cart_actions.php" method="POST">
+                    <input type="hidden" name="action" value="remove">
+                    <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+                    <button type="submit" class="btn-danger">&times;</button>
+                </form>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

@@ -1,0 +1,68 @@
+<?php
+// /gestionale/includes/header.php
+require_once __DIR__ . '/../config.php';
+
+// Recupero impostazioni originali del tuo gestionale
+$settings_result = $db->query("SELECT * FROM settings");
+$settings = [];
+while ($row = $settings_result->fetch_assoc()) { $settings[$row['setting_key']] = $row['setting_value']; }
+
+$cart_item_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+
+// Recuperiamo il menu di WordPress tramite il ponte (senza caricare il DB di WP qui)
+$context = stream_context_create(array("http" => array("header" => "User-Agent: Mozilla/5.0\r\n")));
+$wp_menu_links = @file_get_contents("https://beautyofimage.com/ponte-menu-beauty.php", false, $context);
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo htmlspecialchars($settings['public_business_name'] ?? 'Beauty of Image'); ?></title>
+    
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/product-card.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        :root {
+            --colore-primario: #d4af37;
+            --colore-secondario: #f9f9f9;
+        }
+        /* Stile per integrare i link di WP nel tuo menu */
+        .main-nav a { margin: 0 10px; text-decoration: none; color: inherit; font-weight: bold; text-transform: uppercase; font-size: 0.85rem; }
+        .main-nav a:hover { color: var(--colore-primario); }
+    </style>
+</head>
+<body>
+
+<header class="header-main">
+    <div class="header-main-container">
+        <div class="header-main-left">
+            <a href="/" class="logo">
+                <img src="https://beautyofimage.com/wp-content/uploads/2026/03/Logo.png" alt="Logo" style="max-height: 50px;">
+            </a>
+        </div>
+
+        <div class="header-main-center">
+            <nav class="main-nav">
+                <a href="https://beautyofimage.com">Home</a>
+                
+                <?php echo $wp_menu_links; ?>
+                
+                <a href="/gestionale/prodotti.php">Shop</a>
+            </nav>
+        </div>
+
+        <div class="header-main-right">
+            <a href="carrello.php" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <?php if ($cart_item_count > 0): ?>
+                    <span class="cart-count" style="background:var(--colore-primario); color:#fff; padding:2px 6px; border-radius:50%; font-size:0.7rem;"><?php echo $cart_item_count; ?></span>
+                <?php endif; ?>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">

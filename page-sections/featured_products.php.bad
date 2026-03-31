@@ -1,0 +1,41 @@
+<?php
+// /page-sections/featured_products.php
+// Mostra una griglia di prodotti in evidenza.
+// NOTA: A differenza degli altri, questo blocco esegue una query sul DB.
+global $db; // Accediamo alla connessione DB globale definita in config.php
+
+$limit = intval($sectionData['product_limit'] ?? 3);
+$products_result = $db->query("SELECT * FROM products ORDER BY id DESC LIMIT $limit");
+?>
+<section class="content-section">
+    <h2 class="section-title"><?php echo htmlspecialchars($sectionData['title'] ?? 'Prodotti in Evidenza'); ?></h2>
+    <div class="section-divider"></div>
+    <div class="products-grid">
+        <?php while($product = $products_result->fetch_assoc()): ?>
+            <div class="product-card">
+                <a href="prodotto.php?id=<?php echo $product['id']; ?>">
+                    <?php
+                        // Logica per trovare la prima immagine disponibile per il prodotto
+                        $image_stmt = $db->prepare("SELECT image_url FROM product_images WHERE product_id = ? ORDER BY id ASC LIMIT 1");
+                        $image_stmt->bind_param("i", $product['id']);
+                        $image_stmt->execute();
+                        $image_result = $image_stmt->get_result();
+                        $image = $image_result->fetch_assoc();
+                        $imageUrl = $image ? $image['image_url'] : 'assets/images/placeholder.png'; // Aggiungi un placeholder di default
+                    ?>
+                    <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                    <div class="product-card-content">
+                        <span class="product-category"><?php /* Qui potresti caricare la categoria se necessario */ ?></span>
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                        <p class="product-price"><?php echo number_format($product['price'], 2, ',', '.'); ?>€</p>
+                    </div>
+                </a>
+            </div>
+        <?php endwhile; ?>
+    </div>
+    <?php if (!empty($sectionData['button_text']) && !empty($sectionData['button_link'])): ?>
+        <div class="text-center" style="margin-top: 2rem;">
+            <a href="<?php echo htmlspecialchars($sectionData['button_link']); ?>" class="btn-secondary"><?php echo htmlspecialchars($sectionData['button_text']); ?></a>
+        </div>
+    <?php endif; ?>
+</section>

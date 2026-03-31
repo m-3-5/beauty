@@ -1,0 +1,120 @@
+/* /gestionale/assets/css/cart.css (Versione 3.0 - Responsive e Corretta) */
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+.cart-table thead {
+    border-bottom: 2px solid #ddd;
+    color: #888;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 1.5rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-table td {
+    vertical-align: middle;
+}
+
+.cart-item-image {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.cart-item-info {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item-info div {
+    margin-left: 1.5rem;
+}
+
+.cart-item-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* --- FIX PER IL LAYOUT DELLA QUANTITÀ --- */
+.cart-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Aggiunge un po' di spazio */
+}
+
+.cart-actions input[type="number"] {
+    width: 60px;
+    text-align: center;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.cart-actions button {
+    padding: 0.6rem;
+    font-size: 0.8rem;
+    min-width: 30px;
+}
+
+.cart-total {
+    margin-top: 2rem;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    float: right;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box; /* Assicura che il padding non aumenti la larghezza */
+}
+/* ... stili invariati per totali e checkout ... */
+.cart-total-row { display: flex; justify-content: space-between; font-size: 1.1rem; margin-bottom: 1rem; }
+.cart-total h2 { display: flex; justify-content: space-between; font-size: 1.6rem; margin: 1.5rem 0; border-top: 2px solid #333; padding-top: 1.5rem; }
+.checkout-buttons { margin-top: 1.5rem; display: flex; justify-content: space-between; gap: 1rem; }
+.empty-cart { text-align: center; padding: 4rem; background: #fff; border-radius: 8px; }
+
+
+/* --- NUOVA SEZIONE: REGOLE PER LA VISUALIZZAZIONE SU MOBILE --- */
+@media (max-width: 768px) {
+    .cart-table thead {
+        display: none; /* Nasconde l'intestazione su mobile */
+    }
+    .cart-table tr {
+        display: block; /* Ogni riga diventa un blocco a sé */
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #ddd;
+    }
+    .cart-table td {
+        display: flex;
+        justify-content: space-between; /* Allinea etichetta e valore */
+        align-items: center;
+        text-align: right;
+        border: none;
+        padding: 0.8rem 0;
+    }
+    .cart-table td:before {
+        content: attr(data-label); /* Mostra l'etichetta (che aggiungeremo in PHP) */
+        font-weight: bold;
+        text-align: left;
+        margin-right: 1rem;
+    }
+    .cart-table td:first-child { /* Nascondiamo la cella immagine vuota */
+         display: none;
+    }
+    .cart-total {
+        float: none;
+        max-width: 100%;
+    }
+}

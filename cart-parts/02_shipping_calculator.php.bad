@@ -1,0 +1,7 @@
+<div class="checkout-step">
+    <h3 style="margin-top:0; text-align: left;"><i class="fas fa-truck"></i> Spedizione</h3>
+    <form method="POST" action="carrello.php" style="display: flex; gap: 1rem;">
+        <input type="text" name="postcode" placeholder="Il tuo CAP" value="<?php echo htmlspecialchars($customer_postcode); ?>" required style="flex-grow: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px;">
+        <button type="submit" class="btn-secondary">Calcola</button>
+    </form>
+</div>

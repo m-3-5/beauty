@@ -1,0 +1,79 @@
+<?php
+// /gestionale/includes/header.php
+require_once __DIR__ . '/../config.php';
+
+// Recupero impostazioni
+$settings_result = $db->query("SELECT * FROM settings");
+$settings = [];
+while ($row = $settings_result->fetch_assoc()) { 
+    $settings[$row['setting_key']] = $row['setting_value']; 
+}
+
+$cart_item_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+
+// --- LOGICA PER VISIBILITÀ MENU PROMOZIONI ---
+$promo_count = 0;
+if (isset($db)) {
+    $promo_check_result = $db->query("SELECT COUNT(id) as count FROM promotions WHERE is_active = 1");
+    if($promo_check_result) {
+        $promo_count = $promo_check_result->fetch_assoc()['count'];
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Hub - <?php echo htmlspecialchars($settings['public_business_name'] ?? 'Beauty of Image'); ?></title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <link rel="stylesheet" href="assets/css/beauty-design/custom-style.css?v=<?php echo time(); ?>">
+</head>
+<body>
+
+<header class="header-main">
+    <div class="container">
+        <div class="header-main-left">
+            <a href="index.php" class="logo-link">
+                <img src="https://beautyofimage.com/wp-content/uploads/2026/03/Logo.png" alt="Beauty of Image Hub" class="main-logo">
+            </a>
+        </div>
+
+        <div class="header-main-center">
+            <nav class="main-nav">
+                <a href="https://beautyofimage.com" class="back-link">
+                    <i class="fas fa-arrow-left"></i> SITO WEB
+                </a>
+
+                <a href="index.php">HUB HOME</a>
+                
+                <?php if (!empty($settings['products_section_enabled']) && $settings['products_section_enabled'] == 1): ?>
+                    <a href="prodotti.php">SHOP</a>
+                <?php endif; ?>
+
+                <?php if (!empty($settings['services_section_enabled']) && $settings['services_section_enabled'] == 1): ?>
+                    <a href="servizi.php">SERVIZI</a>
+                <?php endif; ?>
+
+                <?php if ($promo_count > 0): ?>
+                    <a href="promozioni.php">PROMO</a>
+                <?php endif; ?>
+            </nav>
+        </div>
+
+        <div class="header-main-right">
+            <a href="carrello.php" class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <?php if ($cart_item_count > 0): ?>
+                    <span class="cart-count"><?php echo $cart_item_count; ?></span>
+                <?php endif; ?>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="main-content">
