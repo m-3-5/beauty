@@ -1,0 +1,18 @@
+<?php
+// --- CONFIGURAZIONE TEST PASQUALE ---
+$telefono_destinatario = "393487564418"; // Il tuo numero attivato
+$apikey_wa = "5458750";                // La tua API Key
+
+// Messaggio formattato per il centro
+$messaggio_notifica = "🌸 *Nuova Iscritta Beauty of Image* 🌸%0A%0A";
+$messaggio_notifica .= "*Nome:* $nome%0A";
+$messaggio_notifica .= "*Tel:* $telefono%0A%0A";
+$messaggio_notifica .= "Controlla la lista (Pass: *Beauty2026*):%0A"; //
+$messaggio_notifica .= "https://beautyofimage.com/admin_leads.php";
+
+// Invio tramite Gateway CallMeBot
+$url = "https://api.callmebot.com/whatsapp.php?phone=$telefono_destinatario&text=$messaggio_notifica&apikey=$apikey_wa";
+
+// Esecuzione silenziosa
+@file_get_contents($url);
+?>

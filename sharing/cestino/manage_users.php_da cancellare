@@ -1,0 +1,39 @@
+<?php
+require_once 'db.php';
+if ($_SESSION['role'] !== 'admin') { die("Non autorizzato."); }
+
+// Logica per aggiungere utente
+if (isset($_POST['add_user'])) {
+    $user = $_POST['new_username'];
+    $pass = password_hash($_POST['new_password'], PASSWORD_BCRYPT);
+    $role = $_POST['role'];
+
+    $stmt = $pdo->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, ?)");
+    $stmt->execute([$user, $pass, $role]);
+}
+
+// Recupero lista utenti 
+$users = $pdo->query("SELECT id, username, role, created_at FROM users")->fetchAll();
+?>
+
+<h3>Gestione Utenti</h3>
+<form method="POST">
+    <input type="text" name="new_username" placeholder="Username" required>
+    <input type="password" name="new_password" placeholder="Password" required>
+    <select name="role">
+        <option value="user">User (Cliente)</option>
+        <option value="admin">Admin (Pasquale)</option>
+    </select>
+    <button type="submit" name="add_user">Crea Utente</button>
+</form>
+
+<table border="1">
+    <tr><th>Username</th><th>Ruolo</th><th>Creato il</th></tr>
+    <?php foreach ($users as $u): ?>
+    <tr>
+        <td><?php echo $u['username']; ?></td>
+        <td><?php echo $u['role']; ?></td>
+        <td><?php echo $u['created_at']; ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>

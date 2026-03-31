@@ -1,0 +1,25 @@
+<?php
+session_start();
+// Protezione accesso (stessa logica di admin_leads.php)
+if (!isset($_SESSION['autenticato'])) { die("Accesso negato."); }
+
+require_once '../processa.php'; // Per le credenziali DB
+
+try {
+    $pdo = new PDO("mysql:host=".DB_HOST.";dbname=".DB_NAME.";charset=utf8", DB_USER, DB_PASSWORD);
+    $stmt = $pdo->query("SELECT nome, telefono FROM leads_inaugurazione");
+    
+    echo "<h2>Invia Promemoria per il 22 Marzo</h2>";
+    echo "<p>Clicca sui link per aprire WhatsApp con il messaggio pronto:</p><ul>";
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $nome_client = $row['nome'];
+        $tel_client = $row['telefono'];
+        $testo = "Ciao $nome_client! Ti ricordiamo l'appuntamento di oggi ore 17:00 da Beauty of Image in Corso Garibaldi, 7 a Senise. Ti aspettiamo! 🥂";
+        $link_wa = "https://wa.me/" . preg_replace('/[^0-9]/', '', $tel_client) . "?text=" . urlencode($testo);
+        
+        echo "<li>$nome_client ($tel_client) - <a href='$link_wa' target='_blank'>Invia WhatsApp</a></li>";
+    }
+    echo "</ul>";
+} catch (PDOException $e) { echo "Errore: " . $e->getMessage(); }
+?>

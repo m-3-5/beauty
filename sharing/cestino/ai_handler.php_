@@ -1,0 +1,82 @@
+<?php
+/**
+ * Beauty AI Handler - Standalone Version
+ * Include istruzioni, chiave API e logica di comunicazione.
+ */
+require_once 'db.php'; // Serve per la sessione e la sicurezza
+
+header('Content-Type: application/json');
+
+// 1. Configurazione Interna (Tutto qui dentro come richiesto)
+$apiKey = 'AIzaSyA9t0z6VzULsi8AsVvQ5Pp5rDoJeKuzSwE'; // Metti la chiave di Google AI Studio
+
+$systemInstructions = "Sei l'assistente virtuale di 'Beauty Sharing', un portale creato per Pasquale di beautyofimage.com. 
+Il software gestisce lo scambio di file tra Pasquale (Admin) e i suoi clienti. 
+FUNZIONI DEL SISTEMA:
+- Caricamento file (Excel, PDF, Immagini) con assegnazione a utenti specifici.
+- Tabella 'shared_files' per il tracciamento dei documenti.
+- Tunnel di download sicuro tramite 'download.php' per proteggere la privacy.
+- Gestione utenti con ruoli 'admin' e 'user'.
+- Eliminazione sicura (DB + File fisico) per l'Admin.
+REGOLE DI RISPOSTA:
+- Rispondi in modo molto DETTAGLIATO, ESAUSTIVO e CORDIALE in lingua italiana.
+- Non aver paura di scrivere testi lunghi: se l'utente chiede come funziona il sistema, spiega ogni sezione (Dashboard, Upload, Gestione Utenti, Profilo).
+- Spiega che i file sono protetti da un tunnel di download (download.php) per la privacy.
+- Spiega che l'utente 'Pubblico' serve per file visibili a tutti i clienti loggati.
+- Usa una formattazione chiara con elenchi puntati se necessario.
+- Non interrompere le spiegazioni a metà.
+- NON USARE MAI simboli come asterischi (**), cancelletti (###) o liste puntate con simboli grafici.";
+// 2. Protezione: Verifica che l'utente sia loggato tramite sessione
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['answer' => 'Accesso negato. Effettua il login per parlare con me.']);
+    exit;
+}
+
+// 3. Recupero domanda dall'utente
+$input = json_decode(file_get_contents('php://input'), true);
+$userQuestion = isset($input['question']) ? trim($input['question']) : '';
+
+if (empty($userQuestion)) {
+    echo json_encode(['answer' => 'Non ho ricevuto nessuna domanda. Scrivi pure qualcosa!']);
+    exit;
+}
+
+// 4. Preparazione chiamata API Gemini 1.5 Flash
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=" . $apiKey;
+
+$payload = [
+    "contents" => [
+        [
+            "parts" => [
+                ["text" => "CONTEXT: " . $systemInstructions],
+                ["text" => "USER QUESTION: " . $userQuestion]
+            ]
+        ]
+    ],
+    "generationConfig" => [
+        "temperature" => 0.7,
+        "maxOutputTokens" => 800
+    ]
+];
+
+// 5. Esecuzione chiamata cURL
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+$response = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+// 6. Elaborazione risposta
+if ($httpCode !== 200) {
+    echo json_encode(['answer' => 'Ops! Ho un problema di connessione con il mio cervello IA. Verifica la chiave API.']);
+    exit;
+}
+
+$result = json_decode($response, true);
+$aiText = $result['candidates'][0]['content']['parts'][0]['text'] ?? "Non sono sicuro di come rispondere. Prova a riformulare!";
+
+echo json_encode(['answer' => $aiText]);

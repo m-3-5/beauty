@@ -1,0 +1,7 @@
+<?php
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'beauty_sharing');
+define('DB_USER', 'beauty_sharing_user');
+define('DB_PASS', '7_PtUnoCec$u97aq');
+define('BASE_URL', '/sharing/');
+session_start();

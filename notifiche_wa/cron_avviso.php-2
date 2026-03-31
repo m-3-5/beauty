@@ -1,0 +1,62 @@
+<?php
+// Configurazione Database
+define('DB_NAME', 'wp_mypjq');
+define('DB_USER', 'wp_4qwng');
+define('DB_PASSWORD', '7CG?aIaGoC9Gsj&0');
+define('DB_HOST', 'localhost:3306');
+
+// Parametri SMTP Aruba Business (Dati forniti da Max)
+$smtp_host = "ssl://out.postassl.it";
+$smtp_port = 465;
+$smtp_user = "info@beautyofimage.com";
+$smtp_pass = "Beauty2023#"; 
+
+// Dati Destinatario e WhatsApp
+$telefono_beauty = "393487564418"; // Tuo numero per test
+$apikey_beauty = "5458750"; 
+$email_destinatario = "info@inm35.net";
+
+// 1. INVIO WHATSAPP (Via cURL)
+$testo_wa = "🚨 *PROMEMORIA BEAUTY OF IMAGE* 🚨\n\n";
+$testo_wa .= "Mancano pochi giorni al 22 Marzo!\n";
+$testo_wa .= "🔗 Gestione Inviti: https://beautyofimage.com/notifiche_wa/promemoria_massa.php";
+
+$url = "https://api.callmebot.com/whatsapp.php?phone=$telefono_beauty&text=" . urlencode($testo_wa) . "&apikey=$apikey_beauty";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_exec($ch);
+curl_close($ch);
+
+// 2. INVIO EMAIL VIA SMTP (Per evitare lo Spam)
+$subject = "Promemoria: Inviare inviti per l'inaugurazione";
+$message = "Ciao, questo è il promemoria per l'evento in Corso Garibaldi, 7.\nAccedi qui: https://beautyofimage.com/notifiche_wa/promemoria_massa.php";
+
+// Header per l'invio SMTP manuale
+$header = "From: Beauty of Image <info@beautyofimage.com>\r\n";
+$header .= "To: $email_destinatario\r\n";
+$header .= "Subject: $subject\r\n";
+$header .= "MIME-Version: 1.0\r\n";
+$header .= "Content-Type: text/plain; charset=UTF-8\r\n";
+
+// Connessione al server Aruba Business
+$socket = fsockopen($smtp_host, $smtp_port, $errno, $errstr, 30);
+if (!$socket) {
+    die("Errore connessione SMTP: $errstr ($errno)");
+}
+
+// Dialogo con il server SMTP
+fputs($socket, "EHLO " . $_SERVER['HTTP_HOST'] . "\r\n");
+fputs($socket, "AUTH LOGIN\r\n");
+fputs($socket, base64_encode($smtp_user) . "\r\n");
+fputs($socket, base64_encode($smtp_pass) . "\r\n");
+fputs($socket, "MAIL FROM: <$smtp_user>\r\n");
+fputs($socket, "RCPT TO: <$email_destinatario>\r\n");
+fputs($socket, "DATA\r\n");
+fputs($socket, $header . "\r\n" . $message . "\r\n.\r\n");
+fputs($socket, "QUIT\r\n");
+fclose($socket);
+
+echo "Notifiche inviate correttamente via WhatsApp e SMTP Certificato!";
+?>

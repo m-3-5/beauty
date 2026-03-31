@@ -1,0 +1,39 @@
+<?php
+// Configurazione Database e Credenziali
+define('DB_NAME', 'wp_mypjq');
+define('DB_USER', 'wp_4qwng');
+define('DB_PASSWORD', '7CG?aIaGoC9Gsj&0');
+define('DB_HOST', 'localhost:3306');
+
+// Dati del Centro
+$telefono_beauty = "393487564418";
+$apikey_beauty = "5458750"; // Usa quella definitiva del centro quando l'avrai
+
+// Messaggio per WhatsApp
+$testo_wa = "🚨 *PROMEMORIA BEAUTY OF IMAGE* 🚨\n\n";
+$testo_wa .= "Mancano pochi giorni all'inaugurazione del *22 Marzo*!\n";
+$testo_wa .= "Ricordati di inviare i messaggi di invito a tutte le iscritte.\n\n";
+$testo_wa .= "🔗 Accedi qui per inviare i promemoria:\n";
+$testo_wa .= "https://beautyofimage.com/notifiche_wa/promemoria_massa.php";
+
+// 1. INVIO WHATSAPP (Via cURL)
+$url = "https://api.callmebot.com/whatsapp.php?phone=$telefono_beauty&text=" . urlencode($testo_wa) . "&apikey=$apikey_beauty";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_exec($ch);
+curl_close($ch);
+
+// 2. INVIO EMAIL
+$to = "info@inm35.net";
+$subject = "⚠️ Promemoria: Inviare inviti per l'inaugurazione del 22 Marzo";
+$message = "Ciao Emilia e Rosalia,\n\nmanca poco all'evento in Corso Garibaldi, 7!\n\n";
+$message .= "Accedete alla vostra area riservata per inviare il messaggio di promemoria a tutte le clienti registrate:\n";
+$message .= "https://beautyofimage.com/notifiche_wa/promemoria_massa.php\n\nPassword: Beauty2026";
+$headers = "From: Beauty of Image <info@beautyofimage.com>";
+
+mail($to, $subject, $message, $headers, "-f info@beautyofimage.com");
+
+echo "Notifiche di promemoria inviate con successo!";
+?>

@@ -1,0 +1,28 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+require_once 'db.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    die("Accesso negato.");
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['files'])) {
+    $targetDir = "uploads/";
+    $uploadedBy = $_SESSION['user_id'];
+    $targetUser = $_POST['target_user_id'] ?? null; // ID dell'utente che riceve il file
+
+    foreach ($_FILES['files']['name'] as $key => $val) {
+        $fileName = basename($_FILES['files']['name'][$key]);
+        $safeFileName = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", $fileName);
+        $targetFilePath = $targetDir . $safeFileName;
+
+        if (move_uploaded_file($_FILES['files']['tmp_name'][$key], $targetFilePath)) {
+            $stmt = $pdo->prepare("INSERT INTO shared_files (filename, filepath, uploaded_by, target_user_id) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$fileName, $targetFilePath, $uploadedBy, $targetUser]);
+        }
+    }
+    header("Location: index.php?upload=success");
+}
+?>
